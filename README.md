@@ -45,7 +45,7 @@ Tiene que dar `0a7a8096933c6d58721791c9aae5752f`.
 ├── requirements.txt
 ├── 00_revisar_descarga.py       # revisa los archivos descargados
 ├── 00_convertir_a_parquet.py    # convierte los datos a parquet
-├── [notebook del EDA].ipynb
+├── 01_exploracion_calidad.ipynb
 └── data/                   # NO se sube a GitHub
     ├── culture_aware/      # archivos descargados de Zenodo
     ├── parquet/            # generado por 00_convertir_a_parquet.py 
