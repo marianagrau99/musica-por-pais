@@ -1,0 +1,19 @@
+# Datos: son demasiado pesados para GitHub (límite de 100 MB por archivo).
+# Cada integrante los descarga de Zenodo (ver README.md).
+data/
+*.parquet
+*.tar.gz
+*.tsv
+*.txt
+!requirements.txt
+
+# Claves de APIs (nunca se suben)
+.env
+
+# Archivos temporales de Python y Jupyter
+__pycache__/
+.ipynb_checkpoints/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
