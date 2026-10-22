@@ -1,6 +1,6 @@
 """
 Paso 1: revisar que los archivos estén bien y ver el formato real de cada uno.
-Solo usa Python estándar (no hace falta instalar nada). Tarda 1 o 2 minutos.
+
 
 Estructura esperada:
     giras/
