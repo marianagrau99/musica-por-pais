@@ -142,10 +142,12 @@ def verificar():
     ar = (DESTINO / "artists.parquet").as_posix()
     us = (DESTINO / "users.parquet").as_posix()
 
-    total = con.sql(f"SELECT count(*) FROM '{ev}'").fetchone()[0]
+    # 1. Total de escuchas
+    total = con.execute(f"SELECT count(*) FROM '{ev}'").fetchone()[0]
     print(f"\n  Escuchas: {total:,} (el README dice 351,469,333)")
 
-    cobertura = con.sql(f"""
+    # 2. Cobertura de nombres de artistas
+    cobertura = con.execute(f"""
         SELECT avg(CASE WHEN a.artist_id IS NULL THEN 0 ELSE 1 END)
         FROM '{ev}' e LEFT JOIN '{ar}' a USING (artist_id)
     """).fetchone()[0]
@@ -153,22 +155,28 @@ def verificar():
 
     print("\n  PRUEBA CLAVE: los 25 artistas más escuchados.")
     print("  Si son nombres conocidos, los IDs coinciden. Si son raros, no.\n")
-    con.sql(f"""
+    
+    # 3. Muestra de los 25 artistas (usando .df() para imprimir)
+    df_top25 = con.execute(f"""
         SELECT e.artist_id, a.artist_name,
                count(*) AS escuchas, count(DISTINCT e.user_id) AS oyentes
         FROM '{ev}' e LEFT JOIN '{ar}' a USING (artist_id)
         GROUP BY ALL ORDER BY escuchas DESC LIMIT 25
-    """).show(max_rows=25)
+    """).df()
+    print(df_top25.to_string(index=False))
 
     print("\n  Bonus: los 15 más escuchados en Argentina\n")
-    con.sql(f"""
+    
+    # 4. Muestra de Argentina (usando .df() para imprimir)
+    df_ar = con.execute(f"""
         SELECT a.artist_name, count(*) AS escuchas, count(DISTINCT e.user_id) AS oyentes
         FROM '{ev}' e
         JOIN '{us}' u USING (user_id)
         LEFT JOIN '{ar}' a USING (artist_id)
         WHERE u.country = 'AR'
         GROUP BY ALL ORDER BY oyentes DESC LIMIT 15
-    """).show(max_rows=15)
+    """).df()
+    print(df_ar.to_string(index=False))
 
 
 if __name__ == "__main__":

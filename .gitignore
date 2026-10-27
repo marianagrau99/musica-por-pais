@@ -1,3 +1,7 @@
+# Entornos virtuales
+venv/
+env/
+
 # Datos: son demasiado pesados para GitHub (límite de 100 MB por archivo).
 # Cada integrante los descarga de Zenodo (ver README.md).
 data/
