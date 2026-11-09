@@ -107,4 +107,4 @@ for ruta_ev in eventos:
     except tarfile.ReadError as e:
         print("  No se pudo abrir: puede que la descarga esté incompleta.", e)
 
-titulo("LISTO: copiá todo lo que salió en pantalla y pasáselo a Claude")
+titulo("LISTO, revision correcta")

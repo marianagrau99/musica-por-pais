@@ -1,13 +1,13 @@
-# Gestores de instalación base para compilar paquetes modernos
+# Gestores de instalacion base para compilar paquetes modernos
 setuptools>=70.0.0
 
-# Motor SQL en memoria (Soporta DuckDB v1.x)
+# Motor SQL en memoria (Soporta DuckDB v1.x y v2.x)
 duckdb>=1.0.0
 
 # Formato de almacenamiento en columnas y compatibilidad con Apache Arrow
 pyarrow>=17.0.0
 
-# Manipulación de datos y visualización
+# Manipulacion de datos y visualizacion
 pandas>=2.0.0
 matplotlib>=3.8.0
 
