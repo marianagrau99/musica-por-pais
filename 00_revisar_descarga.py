@@ -1,14 +1,12 @@
 """
-Paso 1: revisar que los archivos estén bien y ver el formato real de cada uno.
+Revisión de los archivos descargados de Zenodo.
 
+Verifica que estén los 7 archivos en data/culture_aware/ y muestra las primeras
+líneas de cada uno, para conocer su formato antes de convertirlos a parquet.
+Las escuchas se leen directamente desde el comprimido, sin descomprimirlo.
 
-Estructura esperada:
-    giras/
-      paso1_revisar.py          <- este script
-      data/culture_aware/       <- los 7 archivos descargados
-
-Uso (parada en la carpeta giras):
-    python paso1_revisar.py
+Uso (desde la carpeta del proyecto):
+    python 00_revisar_descarga.py
 """
 import tarfile
 from collections import Counter
@@ -107,4 +105,4 @@ for ruta_ev in eventos:
     except tarfile.ReadError as e:
         print("  No se pudo abrir: puede que la descarga esté incompleta.", e)
 
-titulo("LISTO, revision correcta")
+titulo("Revisión terminada")

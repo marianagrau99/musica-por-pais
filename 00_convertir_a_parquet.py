@@ -1,15 +1,16 @@
 """
-Paso 2: pasar todo a parquet y verificar que los nombres de artistas coincidan.
+Conversión de los archivos originales (TSV) a formato parquet.
 
-Antes, una sola vez:
-    pip install pyarrow duckdb
+Los archivos de texto ocupan mucho (las escuchas pesan 13,86 GB descomprimidas)
+y son lentos de leer. El formato parquet guarda los datos por columna y comprimidos,
+lo que permite consultarlos mucho más rápido con DuckDB.
 
-Uso (parada en la carpeta giras):
-    python paso2_a_parquet.py
+Requiere: pip install pyarrow duckdb
+Uso (desde la carpeta del proyecto):
+    python 00_convertir_a_parquet.py
 
-Tarda entre 5 y 15 minutos; casi todo es convertir las escuchas.
-Se puede volver a correr sin problema: saltea lo que ya está convertido.
-Necesita unos 3 GB libres para los parquet (las escuchas NO se descomprimen al disco).
+Tarda entre 5 y 15 minutos. Si se vuelve a ejecutar, saltea los archivos ya convertidos.
+Al final verifica la cantidad de escuchas y que los IDs de artistas coincidan con sus nombres.
 """
 import io
 import tarfile
@@ -75,8 +76,12 @@ def artistas_a_parquet():
 
 
 class SoloLectura(io.RawIOBase):
-    """Envuelve el archivo que sale del .tar.gz para que pyarrow lo pueda leer
-    de corrido (el original falla si alguien pregunta si se puede rebobinar)."""
+    """Adaptador para leer el archivo de escuchas directamente desde el .tar.gz.
+
+    pyarrow lee el archivo en bloques y en algún momento pregunta si se puede "rebobinar"
+    (volver atrás). El archivo que sale del comprimido no lo permite y esa pregunta da error.
+    Esta clase responde que no se puede rebobinar y le entrega los datos de corrido.
+    Así evitamos descomprimir los 14 GB al disco."""
 
     def __init__(self, archivo):
         self.archivo = archivo
@@ -153,10 +158,10 @@ def verificar():
     """).fetchone()[0]
     print(f"  Escuchas con nombre de artista: {cobertura:.2%}")
 
-    print("\n  PRUEBA CLAVE: los 25 artistas más escuchados.")
-    print("  Si son nombres conocidos, los IDs coinciden. Si son raros, no.\n")
+    print("\n  Control: los 25 artistas más escuchados.")
+    print("  Si son nombres conocidos, los IDs de escuchas y artistas coinciden.\n")
     
-    # 3. Muestra de los 25 artistas (usando .df() para imprimir)
+    # 3. Los 25 artistas más escuchados
     df_top25 = con.execute(f"""
         SELECT e.artist_id, a.artist_name,
                count(*) AS escuchas, count(DISTINCT e.user_id) AS oyentes
@@ -165,9 +170,9 @@ def verificar():
     """).df()
     print(df_top25.to_string(index=False))
 
-    print("\n  Bonus: los 15 más escuchados en Argentina\n")
+    print("\n  Control adicional: los 15 artistas con más oyentes en Argentina\n")
     
-    # 4. Muestra de Argentina (usando .df() para imprimir)
+    # 4. Los artistas con más oyentes en Argentina
     df_ar = con.execute(f"""
         SELECT a.artist_name, count(*) AS escuchas, count(DISTINCT e.user_id) AS oyentes
         FROM '{ev}' e
@@ -194,4 +199,4 @@ if __name__ == "__main__":
 
     print("\n4) Verificación")
     verificar()
-    print("\nLISTO: pasale a Claude todo lo que salió en la parte 4")
+    print("\nConversión terminada.")
