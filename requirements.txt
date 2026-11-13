@@ -10,6 +10,11 @@ pyarrow>=17.0.0
 # Manipulacion de datos y visualizacion
 pandas>=2.0.0
 matplotlib>=3.8.0
+seaborn>=0.13.0
 
 # Soporte para Jupyter Notebooks
 ipykernel>=6.29.0
+
+# Normalizacion geografica (ISO-2) y Machine Learning
+pycountry>=24.6.1
+scikit-learn>=1.5.0
