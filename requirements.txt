@@ -1,6 +1,34 @@
-duckdb
-pandas
+# Gestores de instalacion base para compilar paquetes modernos
+setuptools>=70.0.0
+
+# Motor SQL en memoria (soporta DuckDB v1.x y v2.x)
+duckdb>=1.0.0
+
+# Formato de almacenamiento en columnas y compatibilidad con Apache Arrow
+pyarrow>=17.0.0
+
+# Manipulacion de datos y visualizacion
 numpy
-matplotlib
+pandas>=2.0.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Soporte para Jupyter Notebooks
 notebook
-ipykernel
+ipykernel>=6.29.0
+
+# Normalizacion geografica (ISO-2) y Machine Learning
+pycountry>=24.6.1
+scikit-learn>=1.5.0
+
+# Manipulacion de datos y visualizacion
+pandas>=2.0.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Soporte para Jupyter Notebooks
+ipykernel>=6.29.0
+
+# Normalizacion geografica (ISO-2) y Machine Learning
+pycountry>=24.6.1
+scikit-learn>=1.5.0
